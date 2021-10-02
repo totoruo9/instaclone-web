@@ -1,20 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
-import React, { useState } from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { darkModeVar, isLoggedInVar } from './apollo';
 import Home from './screens/Home';
 import Login from './screens/Login';
 import NotFound from './screens/NotFound';
+import { darkTheme, GlogalStyles, lightTheme } from './styles';
 
-const lightTheme = {
-  fontColor: "#2c2c2c",
-  bgColor: "#eaeaea"
-}
-
-const darkTheme = {
-  fontColor: "#eaeaea",
-  bgColor: "#2c2c2c"
+interface IThemeProviderProps {
+  theme: boolean
 }
 
 function App() {
@@ -22,6 +16,7 @@ function App() {
   const darkMode = useReactiveVar(darkModeVar);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <GlogalStyles />
       <Router>
         <Switch>
           <Route path="/" exact>
