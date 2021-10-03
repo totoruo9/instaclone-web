@@ -29,4 +29,4 @@ export const LinkBtn = ({link, linkText}:any) => {
             {linkText}
         </SLinkBtn>
     )
-}
+};
