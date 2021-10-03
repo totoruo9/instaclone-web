@@ -2,8 +2,9 @@ import { createGlobalStyle, DefaultTheme } from "styled-components"
 import reset from "styled-reset";
 
 export const lightTheme = {
-    fontColor: "#fff",
-    bgColor: "#eaeaea"
+    accent: "#0095f6",
+    borderColor: "rgb(219,219,219)",
+
 }
 
 export const darkTheme = {
@@ -17,6 +18,7 @@ export const GlogalStyles = createGlobalStyle`
         background-color: #FAFAFA;
         font-size:14px;
         font-family:'Open Sans', sans-serif;
+        color: rgb(38,38,38);
     }
     *{
         box-sizing: border-box;
