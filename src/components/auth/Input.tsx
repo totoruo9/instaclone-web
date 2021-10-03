@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { InputProps } from "../../react-app-env";
 
-const SInput = styled.input`
+const Input = styled.input`
     width: 100%;
     border-radius: 3px;
     padding: 7px;
@@ -13,9 +12,5 @@ const SInput = styled.input`
         font-size: 12px;
     }
 `;
-
-const Input = (props:InputProps) => {
-    return <SInput {...props}/>
-}
 
 export default Input

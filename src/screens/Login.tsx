@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { darkModeVar } from "../apollo"
 import {
     faFacebookSquare,
     faInstagram,
@@ -21,14 +20,17 @@ const FacebookLogin = styled.div`
     }
 `;
 
+const LogoArea = styled.div`
+    margin-bottom: 35px;
+`;
+
 const Login = () => {
-    const toggleDark = darkModeVar();
     return (
         <AuthLayout>
             <FormBox>
-                <div>
+                <LogoArea>
                     <FontAwesomeIcon icon={faInstagram} size="3x" />
-                </div>
+                </LogoArea>
                 <form>
                     <Input type="text" placeholder="Username" />
                     <Input type="password" placeholder="Password" />
