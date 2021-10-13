@@ -8,4 +8,6 @@ export type InputProps = {
     type: string;
     value?: string;
     placeholder?: string;
+    hasError?: boolean;
+    name?: string;
 }
