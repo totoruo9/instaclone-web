@@ -1,9 +1,9 @@
 import {ApolloClient, InMemoryCache, makeVar} from "@apollo/client";
 import { useHistory } from "react-router-dom";
 
-const TOKEN = "token"
+const TOKEN = "TOKEN"
 const localToken = Boolean(localStorage.getItem(TOKEN));
-
+const DARK_MODE = "DARK_MODE"
 
 export const isLoggedInVar = makeVar(localToken);
 export const logUserIn = (token:string) => {
@@ -16,7 +16,17 @@ export const logUserOut = () => {
     isLoggedInVar(false);
 };
 
-export const darkModeVar = makeVar(false);
+export const darkModeVar = makeVar(Boolean(localStorage.getItem(DARK_MODE)));
+
+export const enableDarkMode = () => {
+    localStorage.setItem(DARK_MODE, "enabled");
+    darkModeVar(true);
+}
+
+export const disableDarkMode = () => {
+    localStorage.removeItem(DARK_MODE);
+    darkModeVar(false);
+}
 
 export const client = new ApolloClient({
     uri: "http://localhost:4000/graphql",
