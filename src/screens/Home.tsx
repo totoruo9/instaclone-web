@@ -1,4 +1,4 @@
-import { isLoggedInVar, logUserOut } from "../apollo";
+import { logUserOut } from "../apollo";
 
 const Home = () => {
 
