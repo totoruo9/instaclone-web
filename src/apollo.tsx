@@ -1,5 +1,4 @@
 import {ApolloClient, InMemoryCache, makeVar} from "@apollo/client";
-import { useHistory } from "react-router-dom";
 
 const TOKEN = "TOKEN"
 const localToken = Boolean(localStorage.getItem(TOKEN));

@@ -18,6 +18,7 @@ import { gql, useMutation } from "@apollo/client";
 import { logUserIn } from "../apollo";
 import { useLocation } from "react-router-dom";
 import FormAlert from "../components/auth/FormAlert";
+import { login, loginVariables } from "../__generated__/login";
 
 const FacebookLogin = styled.div`
     color: #385285;
@@ -57,7 +58,7 @@ const Login = () => {
             password: location?.state?.password || ""
         }
     });
-    const onCompleted = (data:IForm) => {
+    const onCompleted = (data:login) => {
         const {login: {ok, error, token}} = data;
         if(!ok){
             setError("result", {message:error})
@@ -66,7 +67,7 @@ const Login = () => {
             logUserIn(token);
         }
     }
-    const [login, {loading}] = useMutation(LOGIN_MUTATION, {
+    const [login, {loading}] = useMutation<login, loginVariables>(LOGIN_MUTATION, {
         onCompleted
     });
     const onSubmitValid:SubmitHandler<IForm> = (data) => {

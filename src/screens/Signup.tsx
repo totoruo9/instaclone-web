@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
 import { gql, useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
+import { createAccount, createAccountVariables } from "../__generated__/createAccount";
 
 const HeaderContainer = styled.div`
     display: flex;
@@ -73,7 +74,7 @@ const SignUp = () => {
         }
         history.push(routes.home, {message:"Account created. Please log in", username, password});
     };
-    const [createAccount, {loading}] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    const [createAccount, {loading}] = useMutation<createAccount, createAccountVariables>(CREATE_ACCOUNT_MUTATION, {
         onCompleted
     });
 
