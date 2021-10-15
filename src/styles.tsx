@@ -27,5 +27,6 @@ export const GlogalStyles = createGlobalStyle`
     }
     a {
         text-decoration: none;
+        color:${props => props.theme.fontColor};
     }
 `;
