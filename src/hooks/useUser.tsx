@@ -5,6 +5,7 @@ import { isLoggedInVar, logUserOut } from "../apollo";
 const ME_QUERY = gql`
     query me {
         me {
+            id
             username
             avatar
         }
@@ -20,10 +21,10 @@ const useUser = () => {
     useEffect(() => {
         if(data?.me === null){
             logUserOut();
-        }
-    }, [data])
+        };
+    }, [data]);
 
-    return ;
+    return {data};
 }
 
 export default useUser;
