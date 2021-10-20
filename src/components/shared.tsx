@@ -30,3 +30,8 @@ export const LinkBtn = ({link, linkText}:any) => {
         </SLinkBtn>
     )
 };
+
+export const FatText = styled.span`
+    font-weight: 600;
+`;
+
