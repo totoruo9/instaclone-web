@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import { faBookmark, faComment, faHeart, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark, faComment, faHeart, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as SolidHeart} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -22,6 +23,7 @@ const FEED_QUERY = gql`
             comments
             createAt
             isMine
+            isLiked
         }
     }
 `;
@@ -31,6 +33,7 @@ const PhotoContainer = styled.div`
     border: 1px solid ${props => props.theme.borderColor};
     margin-bottom: 20px;
     max-width: 615px;
+    border-radius: 4px;
 `;
 
 const PhotoHeader = styled.div`
@@ -61,6 +64,10 @@ const PhotoActions = styled.div`
         display:flex;
         align-items: center;
     }
+
+    svg {
+        font-size: 20px;
+    }
 `;
 
 const PhotoAction = styled.div`
@@ -90,12 +97,12 @@ const Home = () => {
                     <PhotoData>
                         <PhotoActions>
                             <div>
-                                <PhotoAction><FontAwesomeIcon size={"lg"} icon={faHeart} /></PhotoAction>
-                                <PhotoAction><FontAwesomeIcon size={"lg"} icon={faComment} /></PhotoAction>
-                                <PhotoAction><FontAwesomeIcon size={"lg"} icon={faPaperPlane} /></PhotoAction>
+                                <PhotoAction><FontAwesomeIcon style={{color: photo.isLiked ? "#ff4a5b" : "inherit"}} icon={photo.isLiked ? SolidHeart : faHeart} /></PhotoAction>
+                                <PhotoAction><FontAwesomeIcon icon={faComment} /></PhotoAction>
+                                <PhotoAction><FontAwesomeIcon icon={faPaperPlane} /></PhotoAction>
                             </div>
                             <div>
-                                <FontAwesomeIcon size={"lg"} icon={faBookmark} />
+                                <FontAwesomeIcon icon={faBookmark} />
                             </div>
                         </PhotoActions>
                         <Likes>{photo.likes <= 1 ? `${photo.likes} like` : `${photo.likes} likes`}</Likes>
