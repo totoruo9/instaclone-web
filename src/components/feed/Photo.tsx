@@ -6,6 +6,7 @@ import { FatText } from "../shared";
 import Avatar from "../Avatar";
 import { gql, useMutation } from "@apollo/client";
 import { toggleLike, toggleLikeVariables } from "../../__generated__/toggleLike";
+import Comments from "./Comments";
 
 interface IPhoto {
     id: number
@@ -16,6 +17,18 @@ interface IPhoto {
     file: string
     isLiked: boolean
     likes: number
+    caption: string
+    commentNumber: number
+    comments: [{
+        id: number
+        user: {
+            username: string
+            avatar?: string
+        }
+        payload: string
+        isMine: boolean
+        createAt: string
+    }]
 };
 
 const PhotoContainer = styled.div`
@@ -81,11 +94,24 @@ const TOGGLE_LIKE_MUTATION = gql`
     }
 `;
 
-const Photo:React.FC<IPhoto> = ({id,
-user,
-file,
-isLiked,
-likes}) => {
+// const Comments = styled.div`
+//     margin-top: 20px;
+// `;
+
+// const Comment = styled.div``;
+
+// const CommentCaption = styled.span`
+//     margin-left: 10px;
+// `;
+
+// const CommentCount = styled(FatText)`
+//     margin: 8px 0;
+//     display: block;
+//     opacity: .7;
+//     font-size: 12px;
+// `
+
+const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commentNumber, comments}) => {
     const updateToggleLike = (cache, result) => {
         const {
             data:{
@@ -143,7 +169,25 @@ likes}) => {
                         <FontAwesomeIcon icon={faBookmark} />
                     </div>
                 </PhotoActions>
+
                 <Likes>{likes <= 1 ? `${likes} like` : `${likes} likes`}</Likes>
+
+                <Comments author={user.username} caption={caption} comments={comments} commentNumber={commentNumber} />
+                {/* <Comments>
+                    <Comment>
+                        <FatText>{user.username}</FatText>
+                        <CommentCaption>{caption}</CommentCaption>
+                    </Comment>
+                    <CommentCount>{commentNumber <= 1 ? `${commentNumber} comment` : `${commentNumber} comments`}</CommentCount>
+                    {comments?.map(comment => {
+                        return(
+                            <Comment key={comment.id}>
+                                <FatText>{comment.user.username}</FatText>
+                                <CommentCaption>{comment.payload}</CommentCaption>
+                            </Comment>
+                        )
+                    })}
+                </Comments> */}
             </PhotoData>
         </PhotoContainer>
     )

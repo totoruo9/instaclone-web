@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 import "styled-components";
 
 declare module "styled-components"{
