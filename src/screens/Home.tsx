@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import { logUserOut } from "../apollo";
 import Photo from "../components/feed/Photo";
+import PageTitle from "../components/pageTitle";
 import routes from "../routes";
 
 const FEED_QUERY = gql`
@@ -31,6 +32,7 @@ const Home = () => {
 
     return (
         <>
+            <PageTitle title="Home" />
             {data?.seeFeed?.map(photo => {
                 return (
                     <Photo key={photo.id} {...photo} />
