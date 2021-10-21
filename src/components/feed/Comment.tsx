@@ -68,7 +68,7 @@ const Comment:React.FC<IComment> = ({id, author, payload, isMine, photoId}) => {
     }
     return (
         <SComment>
-            <FatText>{author}</FatText>
+            <Link to={`/users/${author}`}><FatText>{author}</FatText></Link>
             <CommentCaption>
                 {
                     payload

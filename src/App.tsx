@@ -8,6 +8,7 @@ import routes from './routes';
 import Home from './screens/Home';
 import Login from './screens/Login';
 import NotFound from './screens/NotFound';
+import Profile from './screens/Profile';
 import Signup from './screens/Signup';
 import { darkTheme, GlogalStyles, lightTheme } from './styles';
 
@@ -28,11 +29,16 @@ function App() {
                   : <Login />}
               </Route>
               {!isLoggedIn
-                ? (<Route path={routes.signUp}>
-                  <Signup />
-                </Route>)
+                ? (
+                  <Route path={routes.signUp}>
+                    <Signup />
+                  </Route>
+                )
                 : null
               }
+              <Route path={`/users/:username`}>
+                <Profile />
+              </Route>
               <Route>
                 <NotFound />
               </Route>

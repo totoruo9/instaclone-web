@@ -57,7 +57,7 @@ const Header = () => {
                                     <Link to="/"><FontAwesomeIcon icon={faCompass} size="lg" /></Link>
                                 </GnbItem>
                                 <GnbItem>
-                                    <Avatar url={data?.me?.avatar} />
+                                    <Link to={`/users/${data?.me?.username}`}><Avatar url={data?.me?.avatar} /></Link>
                                 </GnbItem>
                             </>
                             : <Link to={routes.home}><Button>Login</Button></Link>

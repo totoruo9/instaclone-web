@@ -7,6 +7,7 @@ import Avatar from "../Avatar";
 import { gql, useMutation } from "@apollo/client";
 import { toggleLike, toggleLikeVariables } from "../../__generated__/toggleLike";
 import Comments from "./Comments";
+import { Link } from "react-router-dom";
 
 interface IPhoto {
     id: number
@@ -129,8 +130,12 @@ const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commen
     return (
         <PhotoContainer key={id}>
             <PhotoHeader>
-                <Avatar url={user.avatar} lg={true} />
-                <Username>{user.username}</Username>
+                <Link to={`/users/${user.username}`}>
+                    <Avatar url={user.avatar} lg={true} />
+                </Link>
+                <Link to={`/users/${user.username}`}>
+                    <Username>{user.username}</Username>
+                </Link>
             </PhotoHeader>
             <PhotoFile  src={file} />
             <PhotoData>
