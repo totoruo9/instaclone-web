@@ -35,10 +35,9 @@ interface IPhoto {
 const PhotoContainer = styled.div`
     background: #fff;
     border: 1px solid ${props => props.theme.borderColor};
-    margin-bottom: 20px;
     max-width: 615px;
     border-radius: 4px;
-    margin: 0 auto;
+    margin: 20px auto;
 `;
 
 const PhotoHeader = styled.div`

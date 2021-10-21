@@ -107,11 +107,25 @@ const PhotoItem = styled.div<{photoBg:string}>`
     height: 300px;
     margin: .65%;
     border-radius: 4px;
+    transition: .2s;
+    cursor: pointer;
     &:after {
         content:"";
         display: block;
         padding-bottom: 100%;
     }
+    &:hover {
+        opacity: .35;
+    }
+`;
+
+const NotImgMessage = styled.p`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 40px 0 ;
+    font-size: 12px;
+    color: #767676;
 `;
 
 const Profile = () => {
@@ -156,12 +170,13 @@ const Profile = () => {
                 </ProfileContainer>
                 <UserPhotoContainer>
                     {
-                        photos && photos.length !== 0 &&
-                            photos.map(photo => {
+                        photos && photos.length !== 0
+                            ? photos.map(photo => {
                                 return (
-                                    <PhotoItem photoBg={photo.file}></PhotoItem>
+                                    <PhotoItem photoBg={photo.file} />
                                 )
                             })
+                            : <NotImgMessage>You are not upload images.</NotImgMessage>
                     }
                 </UserPhotoContainer>
             </Layout>
