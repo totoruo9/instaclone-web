@@ -11,7 +11,6 @@ import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
 import styled from "styled-components";
 import { FatLink, LinkBtn } from "../components/shared";
-import { Helmet } from "react-helmet-async";
 import PageTitle from "../components/pageTitle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
@@ -68,7 +67,7 @@ const SignUp = () => {
     const history = useHistory();
     const onCompleted = (data:any) => {
         const {username, password} = getValues();
-        const {createAccount:{ok, error}} = data;
+        const {createAccount:{ok}} = data;
         if(!ok){
             return;
         }

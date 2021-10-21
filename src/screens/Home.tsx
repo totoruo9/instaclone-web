@@ -3,35 +3,27 @@ import { useHistory } from "react-router-dom";
 import { logUserOut } from "../apollo";
 import Photo from "../components/feed/Photo";
 import PageTitle from "../components/pageTitle";
+import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../fragments";
 import routes from "../routes";
 
 const FEED_QUERY = gql`
     query seeFeed {
         seeFeed {
-            id
+            ...PhotoFragment
             user {
                 username
                 avatar
             }
-            file
             caption
-            likes
-            commentNumber
             comments {
-                id
-                user {
-                    username
-                    avatar
-                }
-                payload
-                isMine
-                createAt
+                ...CommentFragment
             }
             createAt
             isMine
-            isLiked
         }
     }
+    ${PHOTO_FRAGMENT}
+    ${COMMENT_FRAGMENT}
 `;
 
 const Home = () => {

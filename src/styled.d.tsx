@@ -1,3 +1,4 @@
+import { StringDecoder } from "string_decoder";
 import "styled-components";
 
 declare module "styled-components"{
