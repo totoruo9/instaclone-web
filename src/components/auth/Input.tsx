@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { InputProps, Props } from "../../react-app-env";
 
 interface InputStyledProps {
     hasError?: boolean

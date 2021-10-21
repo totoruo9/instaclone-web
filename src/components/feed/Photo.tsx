@@ -37,6 +37,7 @@ const PhotoContainer = styled.div`
     margin-bottom: 20px;
     max-width: 615px;
     border-radius: 4px;
+    margin: 0 auto;
 `;
 
 const PhotoHeader = styled.div`
@@ -94,23 +95,6 @@ const TOGGLE_LIKE_MUTATION = gql`
     }
 `;
 
-// const Comments = styled.div`
-//     margin-top: 20px;
-// `;
-
-// const Comment = styled.div``;
-
-// const CommentCaption = styled.span`
-//     margin-left: 10px;
-// `;
-
-// const CommentCount = styled(FatText)`
-//     margin: 8px 0;
-//     display: block;
-//     opacity: .7;
-//     font-size: 12px;
-// `
-
 const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commentNumber, comments}) => {
     const updateToggleLike = (cache, result) => {
         const {
@@ -165,7 +149,7 @@ const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commen
 
                 <Likes>{likes <= 1 ? `${likes} like` : `${likes} likes`}</Likes>
 
-                <Comments author={user.username} caption={caption} comments={comments} commentNumber={commentNumber} />
+                <Comments photoId={id} author={user.username} caption={caption} comments={comments} commentNumber={commentNumber} />
             </PhotoData>
         </PhotoContainer>
     )
