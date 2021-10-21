@@ -1,7 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { isReturnStatement } from "typescript";
 import useUser from "../../hooks/useUser";
 import Input from "../auth/Input";
 import { FatText } from "../shared";
@@ -110,7 +109,7 @@ const Comments:React.FC<IComments> = ({author, caption, comments, commentNumber,
             <Comment author={author} payload={caption} />
             <CommentCount>{commentNumber <= 1 ? `${commentNumber} comment` : `${commentNumber} comments`}</CommentCount>
             {comments?.map(comment => {
-                return <Comment author={comment.user.username} key={comment.id} payload={comment.payload} />
+                return <Comment photoId={photoId} isMine={comment.isMine} id={comment.id} author={comment.user.username} key={comment.id} payload={comment.payload} />
             })}
             <div>
                 <form onSubmit={handleSubmit(onValid)}>
