@@ -119,28 +119,21 @@ const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commen
             }
         } = result;
         if(ok){
-            const fragmentId = `Photo:${id}`;
-            const fragment = gql`
-                fragment BSName on Photo {
-                    isLiked,
-                    likes
-                }
-            `;
-            const result = cache.readFragment({
-                id: fragmentId,
-                fragment,
-            });
-            if("isLiked" in result && "likes" in result){
-                const {isLiked:cacheIsLiked, likes:cacheLikes} = result;
-                cache.writeFragment({
-                    id: fragmentId,
-                    fragment,
-                    data: {
-                        isLiked: !cacheIsLiked,
-                        likes: cacheIsLiked ? cacheLikes -1 : cacheLikes + 1
+            const photoId = `Photo:${id}`;
+            cache.modify({
+                id: photoId,
+                fields: {
+                    isLiked(prev){
+                        return !prev;
+                    },
+                    likes(prev){
+                        if(isLiked){
+                            return prev-1;
+                        }
+                        return prev+1;
                     }
-                });
-            }
+                }
+            });
         }
     };
     const [toggleLikeMutation] = useMutation<toggleLike, toggleLikeVariables>(TOGGLE_LIKE_MUTATION, {
@@ -173,21 +166,6 @@ const Photo:React.FC<IPhoto> = ({id, user, file, isLiked, likes, caption, commen
                 <Likes>{likes <= 1 ? `${likes} like` : `${likes} likes`}</Likes>
 
                 <Comments author={user.username} caption={caption} comments={comments} commentNumber={commentNumber} />
-                {/* <Comments>
-                    <Comment>
-                        <FatText>{user.username}</FatText>
-                        <CommentCaption>{caption}</CommentCaption>
-                    </Comment>
-                    <CommentCount>{commentNumber <= 1 ? `${commentNumber} comment` : `${commentNumber} comments`}</CommentCount>
-                    {comments?.map(comment => {
-                        return(
-                            <Comment key={comment.id}>
-                                <FatText>{comment.user.username}</FatText>
-                                <CommentCaption>{comment.payload}</CommentCaption>
-                            </Comment>
-                        )
-                    })}
-                </Comments> */}
             </PhotoData>
         </PhotoContainer>
     )
