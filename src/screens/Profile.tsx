@@ -1,13 +1,16 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/auth/Button";
 import Layout from "../components/Layout";
+import PageTitle from "../components/pageTitle";
 import { FatText } from "../components/shared";
 import { PHOTO_FRAGMENT } from "../fragments";
+import useUser from "../hooks/useUser";
 
 interface ProfileParams {
     username: string
-}
+};
 
 interface SeeProfileType {
     seeProfile: {
@@ -23,7 +26,23 @@ interface SeeProfileType {
         totalFollowing: number
         email: string
     }
-}
+};
+
+const FOLLOW_USER_MUTATION = gql`
+    mutation followUser($username: String!) {
+        followUser(username:$username) {
+            ok
+        }
+    }
+`;
+
+const UNFOLLOW_USER_MUTATION = gql`
+    mutation unfollowUser($username: String!) {
+        unfollowUser(username:$username) {
+            ok
+        }
+    }
+`;
 
 const SEE_PROFILE_QUERY = gql`
     query seeProfile($username:String!){
@@ -67,9 +86,19 @@ const InfoWrap = styled.div`
     
 `;
 
+const UserWrap = styled.div`
+    display: flex;
+`;
+
 const Username = styled.h2`
     font-size: 28px;
     font-weight: 600;
+`;
+
+const UserStateBtn = styled(Button).attrs({
+    as: "span"
+})<{onClick?:any}>`
+    margin: 0 0 0 16px;
 `;
 
 const FollowWrap = styled.div`
@@ -130,10 +159,23 @@ const NotImgMessage = styled.p`
 
 const Profile = () => {
     const {username}:ProfileParams = useParams();
-    const {data} = useQuery(SEE_PROFILE_QUERY, {
+    const {data:userData} = useUser();
+    const {data, loading} = useQuery(SEE_PROFILE_QUERY, {
         variables:{
             username
         }
+    });
+    const [unfollowUserMutation] = useMutation(UNFOLLOW_USER_MUTATION, {
+        variables:{
+            username
+        },
+        refetchQueries: [{query: SEE_PROFILE_QUERY, variables: {username}}, {query: SEE_PROFILE_QUERY, variables:{username: userData?.me?.username}}]
+    });
+    const [followUserMutation] = useMutation(FOLLOW_USER_MUTATION, {
+        variables:{
+            username
+        },
+        refetchQueries: [{query: SEE_PROFILE_QUERY, variables: {username}}, {query: SEE_PROFILE_QUERY, variables:{username: userData?.me?.username}}]
     });
 
     if(data){
@@ -153,13 +195,25 @@ const Profile = () => {
             }
         }:SeeProfileType = data;
 
-        console.log(photos);
         return (
             <Layout>
+                <PageTitle title={loading ? "Loading..." : `${username}'s Profile`} />
                 <ProfileContainer>
                     <ProfileAvatar avatarBg={avatar} />
                     <InfoWrap>
-                        <Username>{username}</Username>
+                        <UserWrap>
+                            <Username>{username}</Username>
+                            {
+                                isMe
+                                    ? <UserStateBtn>Edit Profile</UserStateBtn>
+                                    : <UserStateBtn onClick={
+                                        isFollowing ? unfollowUserMutation : followUserMutation
+                                    }>
+                                        {isFollowing ? "Unfollow" : "Follow"}
+                                    </UserStateBtn>
+                            }
+                            
+                        </UserWrap>
                         <FollowWrap>
                             <FollowItem><FatText>Followers</FatText> {totalFollowers}</FollowItem>
                             <FollowItem><FatText>Following</FatText> {totalFollowing}</FollowItem>
@@ -173,7 +227,7 @@ const Profile = () => {
                         photos && photos.length !== 0
                             ? photos.map(photo => {
                                 return (
-                                    <PhotoItem photoBg={photo.file} />
+                                    <PhotoItem key={photo.id} photoBg={photo.file} />
                                 )
                             })
                             : <NotImgMessage>You are not upload images.</NotImgMessage>
